@@ -296,7 +296,7 @@ def checkFormat(values):
 
 def main():
     # setup MQTT
-    access = 'NNSXS.VCOASZCJR2TD4MZ4DYCTDDIJHJDI52LQYWNXWHA.76LAW2FWLS56JOYBJIQB6Z7GTDWZ2F4WKDMVESCENZXH6QGYVY3A'
+    access = 'XXXXXXXXXXXXXXX'
     mqtt_address = 'eu2.cloud.thethings.industries'
     client = mqtt.Client()
     client.username_pw_set('tfg-icai@tfg-icai', password=access)

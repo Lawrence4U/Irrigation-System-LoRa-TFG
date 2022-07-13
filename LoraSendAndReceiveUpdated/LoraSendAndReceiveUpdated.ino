@@ -437,12 +437,15 @@ void actuarElectrovalvula(int inp1, int inp2, int puertoEnable, bool on_off){
     Serial.println("Abriendo valvula en el puerto");
     digitalWrite(inp1, HIGH);
     digitalWrite(inp2, LOW);
-    delay(10);//timepo que tarde en abrirse/cerrarse
+    delay(20);//tiempo que tarde en abrirse/cerrarse
+    digitalWrite(inp2, HIGH);
+    
   }else{
     Serial.println("Cerrando valvula en el puerto");
     digitalWrite(inp1, LOW);
     digitalWrite(inp2, HIGH);
-    delay(10);//timepo que tarde en abrirse/cerrarse
+    delay(20);//timepo que tarde en abrirse/cerrarse
+    digitalWrite(inp2, LOW);
   }
   pinMode(puertoEnable, LOW);
   

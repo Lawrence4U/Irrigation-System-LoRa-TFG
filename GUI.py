@@ -40,7 +40,7 @@ lay3 = [
     [sg.T('Cada: '), sg.Input(expand_x=True, size=(2, 1), key='gap3'), sg.T('Horas, regar: '),
      sg.Input(expand_x=True, size=(2, 1), key='duracion3'), sg.T('minutos')],
     [sg.T('Todas las valvulas:')],
-    [sg.B('Subir', key='SubirA'), sg.B('Subir contando los vacios', key='SubirE'), ],
+    [sg.B('Subir', key='SubirA')],
     [sg.T('Acciones inmediatas:', expand_x=True)],
     [sg.B('Abrir valvula 0', key='A0'), sg.B('Cerrar valvula 0', key='C0')],
     [sg.B('Abrir valvula 1', key='A1'), sg.B('Cerrar valvula 0', key='C1')],
@@ -81,14 +81,14 @@ def getConfig():
     f = open("config.json")
     return json.load(f)
 
-def guardarConfig(values, conElim):
+def guardarConfig(values):
     
     f = open("config.json", "r")
     conf = json.load(f)
 
     for num in ('0', '1', '2', '3'):
         for i,tipo in enumerate(('gap', 'duracion')):
-            if values[tipo + num]=="" and conElim:
+            if values[tipo + num]=="":
                 conf["".join(['V',num])][i] = '0'
             elif values[tipo + num]!="":
                 conf["".join(['V',num])][i] = values[tipo + num]
@@ -99,6 +99,17 @@ def guardarConfig(values, conElim):
     with open("config.json", "w") as outfile:
         outfile.write(json_completo)
 
+    return
+
+def cargarConfig(window):
+    f = open("config.json", "r")
+    conf = json.load(f)
+    for num in ('0', '1', '2', '3'):
+        for i,tipo in enumerate(('gap', 'duracion')):
+            print(window[tipo + num])
+            window[tipo + num].update(conf["V"+num][i])
+    
+    
     return
 
 def on_connect(client, userdata, flags, rc):
@@ -294,9 +305,10 @@ def checkFormat(values):
         
     return True
 
+
 def main():
     # setup MQTT
-    access = 'XXXXXXXXXXXXXXX'
+    access = 'NNSXS.VCOASZCJR2TD4MZ4DYCTDDIJHJDI52LQYWNXWHA.76LAW2FWLS56JOYBJIQB6Z7GTDWZ2F4WKDMVESCENZXH6QGYVY3A'
     mqtt_address = 'eu2.cloud.thethings.industries'
     client = mqtt.Client()
     client.username_pw_set('tfg-icai@tfg-icai', password=access)
@@ -334,9 +346,9 @@ def main():
                 window['warning'].update(visible=True, value='el paquete se enviará en los próximos 7 minutos')
                 queued = True
         
-        if event in ('SubirA', 'SubirE'):
+        if event in ('SubirA'):
             if checkFormat(values):
-                guardarConfig(values, event=='SubirE')
+                guardarConfig(values)
                 listaAcciones.append('horario')
                 if not primEnvio:
                     enviarPaquete(client)
@@ -350,6 +362,7 @@ def main():
 
 if __name__ == "__main__":
     window = sg.Window('Control de Riego', layout=layout, resizable=True, finalize=True)
+    cargarConfig(window)
     primEnvio = False
     queued = False
     listaAcciones = []

@@ -14,6 +14,17 @@ from dateutil.relativedelta import relativedelta
 from datetime import datetime, timedelta
 import pytz
 
+# Variables para identificar los canales de comunicación MQTT
+# Cuenta de Lorenzo
+application_id = 'tfg-icai'
+tenant_id = 'tfg-icai'
+device_id = 'arduino-tfg'
+# cuenta de INEA
+#application_id = 'riego-inea'
+#tenant_id = 'inea-icai'
+#device_id = 'eui-a8610a32371f8b01'
+
+
 matplotlib.use('TkAgg')
 sg.theme('LightBlue3')
 
@@ -128,7 +139,7 @@ def on_message(client, userdata, msg):
     # Cuenta Lorenzo
 #    if msg.topic == 'v3/tfg-icai@tfg-icai/devices/arduino-tfg/up':
     # Cuenta INEA-ICAI
-    if msg.topic == 'v3/riego-inea@inea-icai/devices/eui-a8610a32371f8b01/up':
+    if msg.topic == 'v3/' + application_id + '@' + tenant_id + '/devices/' + device_id + '/up':
         print(codecs.decode(str(b64decode(recibido['uplink_message']['frm_payload']).hex()), 'hex').decode(
             'utf-8'))
         if codecs.decode(str(b64decode(recibido['uplink_message']['frm_payload']).hex()), 'hex').decode(
@@ -183,7 +194,7 @@ def on_message(client, userdata, msg):
     # mensajes hacia la placa
     # Cuenta Lorenzo
 #    elif msg.topic == 'v3/tfg-icai@tfg-icai/devices/arduino-tfg/down/queued':
-    elif msg.topic == 'v3/riego-inea@inea-icai/devices/eui-a8610a32371f8b01/down/queued':
+    elif msg.topic == 'v3/' + application_id + '@' + tenant_id + '/devices/' + device_id + '/down/queued':
         print(b64decode(recibido['downlink_queued']['frm_payload']).hex().upper())
 
 
@@ -284,7 +295,7 @@ def enviarPaquete(client):
     pay = '{"downlinks":[{"f_port": 1,"frm_payload":"' + pay_b64 + '","priority": "NORMAL"}]}'
     #cuenta Lorenzo
 #    client.publish(topic='v3/tfg-icai@tfg-icai/devices/arduino-tfg/down/replace', payload=pay, qos=0, retain=False)
-    client.publish(topic='v3/riego-inea@inea-icai/devices/eui-a8610a32371f8b01/down/replace', payload=pay, qos=0, retain=False)
+    client.publish(topic='v3/' + application_id + '@' + tenant_id + '/devices/' + device_id + '/down/replace', payload=pay, qos=0, retain=False)
     listaAcciones = []
     return
 
@@ -324,16 +335,16 @@ def checkFormat(values):
 def main():
     # setup MQTT
     # Cuenta Lorenzo
-#    access = 'NNSXS.VCOASZCJR2TD4MZ4DYCTDDIJHJDI52LQYWNXWHA.76LAW2FWLS56JOYBJIQB6Z7GTDWZ2F4WKDMVESCENZXH6QGYVY3A'
-#    mqtt_address = 'eu2.cloud.thethings.industries'
-#    client = mqtt.Client()
-#    client.username_pw_set('tfg-icai@tfg-icai', password=access)
+    access = 'NNSXS.VCOASZCJR2TD4MZ4DYCTDDIJHJDI52LQYWNXWHA.76LAW2FWLS56JOYBJIQB6Z7GTDWZ2F4WKDMVESCENZXH6QGYVY3A'
+    mqtt_address = 'eu2.cloud.thethings.industries'
+    client = mqtt.Client()
+    client.username_pw_set('tfg-icai@tfg-icai', password=access)
 
     # Cuenta INEA-ICAI
-    access = 'NNSXS.ZELTOL4A3L2C3DFWLKKWPU7I6WZJ2J32MLAIKXQ.DCVPWY7TMWDWMSOHFNJMVEJOHCB4JIWVRZU3QXLE4KLWRGN3RPGQ'
-    mqtt_address = 'eu1.cloud.thethings.industries'
-    client = mqtt.Client()
-    client.username_pw_set('riego-inea@inea-icai', password=access)
+#    access = 'NNSXS.ZELTOL4A3L2C3DFWLKKWPU7I6WZJ2J32MLAIKXQ.DCVPWY7TMWDWMSOHFNJMVEJOHCB4JIWVRZU3QXLE4KLWRGN3RPGQ'
+#    mqtt_address = 'eu1.cloud.thethings.industries'
+#    client = mqtt.Client()
+#    client.username_pw_set('riego-inea@inea-icai', password=access)
 
     client.on_connect = on_connect
     client.on_message = on_message

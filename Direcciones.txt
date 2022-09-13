@@ -1,0 +1,18 @@
+* Para cambiar la tarjeta:
+https://accounts.thethingsindustries.com/login
+
+* Para acceder a la consola:
+https://inea-icai.eu1.cloud.thethings.industries/console/
+
+* La aplicación está en:
+https://inea-icai.eu1.cloud.thethings.industries/console/applications/riego-inea
+
+* El acceso a la consola de la cuenta de Lorenzo:
+https://tfg-icai.eu2.cloud.thethings.industries/console/applications
+  Id : tfg-icai
+  Contraseña: Tfglora123
+  Teléfono Lorenzo: 646851923
+
+* Acceso al servidor de riego de INEA:
+> ssh -p 2222 agromaster@smartgranja.inea.edu.es
+  dunia33

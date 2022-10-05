@@ -1,6 +1,6 @@
 from pickle import TRUE
 from time import sleep
-from tkinter import *
+import tkinter as tk
 from tkinter.ttk import *
 from xmlrpc.client import Boolean
 import matplotlib
@@ -39,15 +39,31 @@ def cButtonEvent():
 def comboSeleccionado(*args):
     print(programas.get())
     
-    
+def commandFreq():
+    if varFrecuencia.get():
+        print("Hola")
+    else:
+        print("ADios")
+        
+    return
     
     
 if __name__ == "__main__":
     
-    root = Tk()
+    root = tk.Tk()
     root.title("Interfaz")
     root.geometry("400x400+600+300")
     
+    #cargando estilos
+    style = Style()
+    
+    style.theme_use('alt')
+    style.configure('A.TButton', width = 10, foreground = 'white', borderwidth=0, focusthickness=0, focuscolor='none', takefocus=False)
+    style.map("A.TButton", background=[('pressed', 'green4'), ('!pressed', 'grey27')])
+    style.configure('TLabels', width = 10, foreground = 'white2')
+    style.configure('TRadiobutton', indicatoron=0)
+    
+    #Cargando ventana
     tabGroup = Notebook(root)
     
     tab1 = Frame(tabGroup)
@@ -61,19 +77,25 @@ if __name__ == "__main__":
     programas = Combobox(tab1, values=[1,2,3,4,5,6], width= 5, justify= 'center', state='readonly')
     programas.current(0)
     programas.bind("<<ComboboxSelected>>", comboSeleccionado)
-    programas.pack(side="left")
+    programas.grid(row=0,column=0)
     
     btnActivo = Button(tab1, command=toggle, text='Inactivo', style='A.TButton')
-    btnActivo.pack(side='left')
+    btnActivo.grid(row=1,column=0)
     
-    btnActivo2 = Button(tab1, command=toggle, text='Inactivo', style='B.TButton')
-    btnActivo2.pack(side='left')
+    btnActivo2 = Label(tab1, text='Frecuencia del programa')
+    btnActivo2.grid(row=2,column=0)
     
-    style = Style()
+    varFrecuencia = tk.IntVar()
+    rad1 = tk.Radiobutton(tab1, text='Único',indicatoron=0, variable=varFrecuencia, value =0, command=commandFreq)
+    rad2 = tk.Radiobutton(tab1, text='Personalizado',indicatoron= 0,variable=varFrecuencia, value =1, command=commandFreq)
+    rad1.grid(row=3, column=0)
+    rad2.grid(row=3, column=1)
     
-    style.theme_use('alt')
-    style.configure('A.TButton', width = 20, foreground = 'white', borderwidth=0, focusthickness=0, focuscolor='none', takefocus=False)
-    style.map("A.TButton", background=[('pressed', 'green4'), ('!pressed', 'grey27')])
+    
+    
+    
+    
+    
         
     
     # frame = Frame(root)

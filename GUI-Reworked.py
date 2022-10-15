@@ -1,3 +1,4 @@
+from ctypes import alignment
 from pickle import TRUE
 from time import sleep
 import tkinter as tk
@@ -11,7 +12,6 @@ from matplotlib.sankey import RIGHT
 
 def toggle():
     print(btnActivo['text'])
-    
     
     if btnActivo['text'] == "Inactivo":
         print("opt1")
@@ -31,9 +31,9 @@ def intVartoInt(lista):
     
     
 def cButtonEvent():
+    print(chLunes.state())
     global opcion
     valores = intVartoInt(opcion)
-    # ch3.configure(relief=FLAT)
     print(valores)
     
 def comboSeleccionado(*args):
@@ -64,6 +64,8 @@ if __name__ == "__main__":
     style.map("A.TButton", background=[('pressed', 'green4'), ('!pressed', 'grey27')])
     style.configure('TLabels', width = 10, foreground = 'white2')
     style.configure('TRadiobutton', indicatoron=0)
+    style.configure('A.TCheckbutton', foreground = 'white', anchor='center', width=3, indicatorrelief=tk.FLAT, indicatormargin=-10, indicatordiameter=-10, heigth=3)
+    style.map('A.TCheckbutton', background=[('!selected', 'grey27'), ('selected', 'green4')])
     
     #Cargando ventana
     tabGroup = Notebook(root)
@@ -83,16 +85,35 @@ if __name__ == "__main__":
     btnActivo2 = Label(tab1, text='Frecuencia del programa')
     
     varFrecuencia = tk.IntVar()
-    rad1 = tk.Radiobutton(tab1, text='Único',indicatoron=0, variable=varFrecuencia, value =0, command=commandFreq)
-    rad2 = tk.Radiobutton(tab1, text='Personalizado',indicatoron= 0,variable=varFrecuencia, value =1, command=commandFreq)
+    radFreq1 = tk.Radiobutton(tab1, text='Único',indicatoron=0, variable=varFrecuencia, value =0, command=commandFreq)
+    radFreq2 = tk.Radiobutton(tab1, text='Personalizado',indicatoron= 0,variable=varFrecuencia, value =1, command=commandFreq)
 
+    ##Programacion semanal
+    ###Primero habria que cargar la selección existente para este dia
+    opcion= [tk.IntVar(value=0),tk.IntVar(value=0),tk.IntVar(value=0),tk.IntVar(value=0),tk.IntVar(value=0),tk.IntVar(value=0),tk.IntVar(value=0)]
+    chLunes = Checkbutton(tab1, text="L", variable=opcion[0], command=cButtonEvent, style='A.TCheckbutton')
+    chMartes = Checkbutton(tab1, text="M", variable=opcion[1], command=cButtonEvent, style='A.TCheckbutton')
+    chMiercoles = Checkbutton(tab1, text="X", variable=opcion[2], command=cButtonEvent, style='A.TCheckbutton')
+    chJueves = Checkbutton(tab1, text="J", variable=opcion[3], command=cButtonEvent, style='A.TCheckbutton')
+    chViernes = Checkbutton(tab1, text="V", variable=opcion[4], command=cButtonEvent, style='A.TCheckbutton')
+    chSabado = Checkbutton(tab1, text="S", variable=opcion[5], command=cButtonEvent, style='A.TCheckbutton')
+    chDomingo = Checkbutton(tab1, text="D", variable=opcion[6], command=cButtonEvent, style='A.TCheckbutton')
+    
     #distribución
-    # selPrograma.grid(row=0,column=0)
-    selPrograma.place(x=20,y=20)
-    btnActivo.place(x=20,y=50)
-    btnActivo2.place(x=20,y= 80)
-    rad1.place(x=40,y= 110)
-    rad2.place(x=100,y= 110)  
+    selPrograma.place(x=20, y=20)
+    btnActivo.place(x=20, y=50)
+    btnActivo2.place(x=20, y=80)
+    radFreq1.place(x=30, y=110)
+    radFreq2.place(x=71, y=110)
+    chLunes.place(x= 20, y=150)
+    chMartes.place(x= 50, y=150)
+    chMiercoles.place(x= 80, y=150)
+    chJueves.place(x= 110, y=150)
+    chViernes.place(x= 140, y=150)
+    chSabado.place(x= 170, y=150)
+    chDomingo.place(x= 200, y=150)
+    # rad1.winfo_rootx()+rad1.winfo_width()
     
     
+
     root.mainloop()

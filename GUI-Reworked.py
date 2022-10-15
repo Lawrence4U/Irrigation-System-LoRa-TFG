@@ -37,13 +37,13 @@ def cButtonEvent():
     print(valores)
     
 def comboSeleccionado(*args):
-    print(programas.get())
+    print(selPrograma.get())
     
 def commandFreq():
     if varFrecuencia.get():
-        print("Hola")
+        print("Personalizado")
     else:
-        print("ADios")
+        print("Unico")
         
     return
     
@@ -54,6 +54,8 @@ if __name__ == "__main__":
     root.title("Interfaz")
     root.geometry("400x400+600+300")
     
+    altura = root.winfo_screenwidth()
+    anchura = root.winfo_screenheight()
     #cargando estilos
     style = Style()
     
@@ -71,44 +73,26 @@ if __name__ == "__main__":
     
     tabGroup.add(tab1, text='Pestaña 1')
     tabGroup.add(tab2, text='Pestaña 2')
-    
     tabGroup.pack(expand=1, fill="both")
     
-    programas = Combobox(tab1, values=[1,2,3,4,5,6], width= 5, justify= 'center', state='readonly')
-    programas.current(0)
-    programas.bind("<<ComboboxSelected>>", comboSeleccionado)
-    programas.grid(row=0,column=0)
+    selPrograma = Combobox(tab1, values=[1,2,3,4,5,6], width= 5, justify= 'center', state='readonly')
+    selPrograma.current(0)
+    selPrograma.bind("<<ComboboxSelected>>", comboSeleccionado)
     
     btnActivo = Button(tab1, command=toggle, text='Inactivo', style='A.TButton')
-    btnActivo.grid(row=1,column=0)
-    
     btnActivo2 = Label(tab1, text='Frecuencia del programa')
-    btnActivo2.grid(row=2,column=0)
     
     varFrecuencia = tk.IntVar()
     rad1 = tk.Radiobutton(tab1, text='Único',indicatoron=0, variable=varFrecuencia, value =0, command=commandFreq)
     rad2 = tk.Radiobutton(tab1, text='Personalizado',indicatoron= 0,variable=varFrecuencia, value =1, command=commandFreq)
-    rad1.grid(row=3, column=0)
-    rad2.grid(row=3, column=1)
+
+    #distribución
+    # selPrograma.grid(row=0,column=0)
+    selPrograma.place(x=20,y=20)
+    btnActivo.place(x=20,y=50)
+    btnActivo2.place(x=20,y= 80)
+    rad1.place(x=40,y= 110)
+    rad2.place(x=100,y= 110)  
     
     
-    
-    
-    
-    
-        
-    
-    # frame = Frame(root)
-    # frame.pack()
-    # opcion= [IntVar(value=0),IntVar(value=0),IntVar(value=0),IntVar(value=0),IntVar(value=0),IntVar(value=0),IntVar(value=0)]
-    # ch1 = Checkbutton(frame, text="L", variable=opcion[0], command=cButtonEvent, indicatoron=0)
-    # ch1.pack()
-    # ch2 = Checkbutton(frame, text="M", variable=opcion[1], command=cButtonEvent  ,indicatoron=0)
-    # ch2.pack()
-    # imagen = PhotoImage(file="imagenes\circulo.png").subsample(40,40)
-    # imagen2 = PhotoImage(file="imagenes\circulo2.png").subsample(80,80)
-    # ch3 = Checkbutton(frame, text="X", variable=opcion[2], command=cButtonEvent , indicatoron=0, image=imagen, selectimage=imagen2)
-    # ch3.pack()
-    # tk.Radiobutton(frame,text="M", indicatoron=0)
-    # lanzar hilos para el resto de la app
     root.mainloop()

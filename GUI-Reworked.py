@@ -66,6 +66,7 @@ if __name__ == "__main__":
     style.configure('TRadiobutton', indicatoron=0)
     style.configure('A.TCheckbutton', foreground = 'white', anchor='center', width=3, indicatorrelief=tk.FLAT, indicatormargin=-10, indicatordiameter=-10, heigth=3)
     style.map('A.TCheckbutton', background=[('!selected', 'grey27'), ('selected', 'green4')])
+    style.configure('A.TSpinbox',)
     
     #Cargando ventana
     tabGroup = Notebook(root)
@@ -77,13 +78,17 @@ if __name__ == "__main__":
     tabGroup.add(tab2, text='Pestaña 2')
     tabGroup.pack(expand=1, fill="both")
     
+    ##Selector de programas
     selPrograma = Combobox(tab1, values=[1,2,3,4,5,6], width= 5, justify= 'center', state='readonly')
     selPrograma.current(0)
     selPrograma.bind("<<ComboboxSelected>>", comboSeleccionado)
     
+    ##Activación/desactivación del programa
     btnActivo = Button(tab1, command=toggle, text='Inactivo', style='A.TButton')
-    btnActivo2 = Label(tab1, text='Frecuencia del programa')
+    ##Etiqueta
+    labFreq = Label(tab1, text='Frecuencia del programa')
     
+    ##Selector de frecuencia
     varFrecuencia = tk.IntVar()
     radFreq1 = tk.Radiobutton(tab1, text='Único',indicatoron=0, variable=varFrecuencia, value =0, command=commandFreq)
     radFreq2 = tk.Radiobutton(tab1, text='Personalizado',indicatoron= 0,variable=varFrecuencia, value =1, command=commandFreq)
@@ -99,10 +104,23 @@ if __name__ == "__main__":
     chSabado = Checkbutton(tab1, text="S", variable=opcion[5], command=cButtonEvent, style='A.TCheckbutton')
     chDomingo = Checkbutton(tab1, text="D", variable=opcion[6], command=cButtonEvent, style='A.TCheckbutton')
     
+    ##configuración de los programas
+    tStart = tk.StringVar(value='0:00')
+    listaOpciones=[]
+    for i in range(144):
+        for j in range(6):
+            listaOpciones.append(f'{i%24}:{(j*10):02d}')
+    
+    print(listaOpciones)
+    listaOpciones = tuple(listaOpciones)
+    
+    labStart = Label(tab1, text='Tiempos de arranque')
+    spinStart = Spinbox(tab1, textvariable=tStart, wrap=True, values=listaOpciones, style='A.TSpinbox', width=5)
+    
     #distribución
     selPrograma.place(x=20, y=20)
     btnActivo.place(x=20, y=50)
-    btnActivo2.place(x=20, y=80)
+    labFreq.place(x=20, y=80)
     radFreq1.place(x=30, y=110)
     radFreq2.place(x=71, y=110)
     chLunes.place(x= 20, y=150)
@@ -112,7 +130,9 @@ if __name__ == "__main__":
     chViernes.place(x= 140, y=150)
     chSabado.place(x= 170, y=150)
     chDomingo.place(x= 200, y=150)
-    # rad1.winfo_rootx()+rad1.winfo_width()
+    
+    spinStart.place(x= 20,y=180)
+    
     
     
 

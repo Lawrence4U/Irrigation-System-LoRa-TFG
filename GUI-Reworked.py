@@ -30,11 +30,12 @@ def intVartoInt(lista):
     
     
     
-def cButtonEvent():
+def cButtonSemanal():
     print(chLunes.state())
     global opcion
     valores = intVartoInt(opcion)
     print(valores)
+    print(root.winfo_height())
     
 def comboSeleccionado(*args):
     print(selPrograma.get())
@@ -52,14 +53,12 @@ if __name__ == "__main__":
     
     root = tk.Tk()
     root.title("Interfaz")
-    root.geometry("400x400+600+300")
+    root.geometry("400x500+600+300")
     
-    altura = root.winfo_screenwidth()
-    anchura = root.winfo_screenheight()
     #cargando estilos
     style = Style()
     
-    style.theme_use('alt')
+    style.theme_use('clam')
     style.configure('A.TButton', width = 10, foreground = 'white', borderwidth=0, focusthickness=0, focuscolor='none', takefocus=False)
     style.map("A.TButton", background=[('pressed', 'green4'), ('!pressed', 'grey27')])
     style.configure('TLabels', width = 10, foreground = 'white2')
@@ -96,27 +95,46 @@ if __name__ == "__main__":
     ##Programacion semanal
     ###Primero habria que cargar la selección existente para este dia
     opcion= [tk.IntVar(value=0),tk.IntVar(value=0),tk.IntVar(value=0),tk.IntVar(value=0),tk.IntVar(value=0),tk.IntVar(value=0),tk.IntVar(value=0)]
-    chLunes = Checkbutton(tab1, text="L", variable=opcion[0], command=cButtonEvent, style='A.TCheckbutton')
-    chMartes = Checkbutton(tab1, text="M", variable=opcion[1], command=cButtonEvent, style='A.TCheckbutton')
-    chMiercoles = Checkbutton(tab1, text="X", variable=opcion[2], command=cButtonEvent, style='A.TCheckbutton')
-    chJueves = Checkbutton(tab1, text="J", variable=opcion[3], command=cButtonEvent, style='A.TCheckbutton')
-    chViernes = Checkbutton(tab1, text="V", variable=opcion[4], command=cButtonEvent, style='A.TCheckbutton')
-    chSabado = Checkbutton(tab1, text="S", variable=opcion[5], command=cButtonEvent, style='A.TCheckbutton')
-    chDomingo = Checkbutton(tab1, text="D", variable=opcion[6], command=cButtonEvent, style='A.TCheckbutton')
+    chLunes = Checkbutton(tab1, text="L", variable=opcion[0], command=cButtonSemanal, style='A.TCheckbutton')
+    chMartes = Checkbutton(tab1, text="M", variable=opcion[1], command=cButtonSemanal, style='A.TCheckbutton')
+    chMiercoles = Checkbutton(tab1, text="X", variable=opcion[2], command=cButtonSemanal, style='A.TCheckbutton')
+    chJueves = Checkbutton(tab1, text="J", variable=opcion[3], command=cButtonSemanal, style='A.TCheckbutton')
+    chViernes = Checkbutton(tab1, text="V", variable=opcion[4], command=cButtonSemanal, style='A.TCheckbutton')
+    chSabado = Checkbutton(tab1, text="S", variable=opcion[5], command=cButtonSemanal, style='A.TCheckbutton')
+    chDomingo = Checkbutton(tab1, text="D", variable=opcion[6], command=cButtonSemanal, style='A.TCheckbutton')
     
     ##configuración de los programas
-    tStart = tk.StringVar(value='0:00')
     listaOpciones=[]
     for i in range(144):
         for j in range(6):
             listaOpciones.append(f'{i%24}:{(j*10):02d}')
     
-    print(listaOpciones)
     listaOpciones = tuple(listaOpciones)
     
-    labStart = Label(tab1, text='Tiempos de arranque')
-    spinStart = Spinbox(tab1, textvariable=tStart, wrap=True, values=listaOpciones, style='A.TSpinbox', width=5)
+    labStart = Label(tab1, text='Tiempos de arranque:')
+    labHora = Label(tab1, text='Hora: ')
+    tHora = tk.StringVar(value='0:00')
+    spinHora = Spinbox(tab1, textvariable=tHora, wrap=True, values=listaOpciones, style='A.TSpinbox', width=5)
     
+    labDura = Label(tab1, text='Duracion: ')
+    tDuracion = tk.StringVar(value='0:00')
+    spinDuracion = Spinbox(tab1, textvariable=tDuracion, wrap=True, values=listaOpciones, style='A.TSpinbox', width=5)
+    
+    ##Valvulas a las que aplicar el programa
+    
+    optVal = [tk.IntVar(value=0),tk.IntVar(value=0),tk.IntVar(value=0),tk.IntVar(value=0)]
+    labVal = Label(tab1, text='Valvulas a operar:')
+    chVal1 = Checkbutton(tab1, text="Valvula 1", variable=optVal[0])
+    chVal2 = Checkbutton(tab1, text="Valvula 2", variable=optVal[1])
+    chVal3 = Checkbutton(tab1, text="Valvula 3", variable=optVal[2])
+    chVal4 = Checkbutton(tab1, text="Valvula 4", variable=optVal[3])
+    #chValAll = Checkbutton(tab1, text="Activar todas", variable=opcion[6], command=cButtonEvent)
+    
+    ##Guardado de configuración
+    butSave = Button(tab1, text='Guardar Programa')
+    
+    
+    root.update_idletasks() #hacemos update del root para que este todo listo
     #distribución
     selPrograma.place(x=20, y=20)
     btnActivo.place(x=20, y=50)
@@ -130,9 +148,17 @@ if __name__ == "__main__":
     chViernes.place(x= 140, y=150)
     chSabado.place(x= 170, y=150)
     chDomingo.place(x= 200, y=150)
-    
-    spinStart.place(x= 20,y=180)
-    
+    labStart.place(x= 20,y=180)
+    labHora.place(x= 20,y=210)
+    spinHora.place(x= 60,y=210)
+    labDura.place(x= 140,y=210)
+    spinDuracion.place(x= 200,y=210)
+    labVal.place(x= 20, y= 240)
+    chVal1.place(x= 40, y= 270)
+    chVal2.place(x= 40, y= 300)
+    chVal3.place(x= 40, y= 330)
+    chVal4.place(x= 40, y= 360)
+    butSave.place(x= 20, y= root.winfo_height()-80)
     
     
 

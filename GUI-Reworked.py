@@ -66,6 +66,8 @@ if __name__ == "__main__":
     style.configure('A.TCheckbutton', foreground = 'white', anchor='center', width=3, indicatorrelief=tk.FLAT, indicatormargin=-10, indicatordiameter=-10, heigth=3)
     style.map('A.TCheckbutton', background=[('!selected', 'grey27'), ('selected', 'green4')])
     style.configure('A.TSpinbox',)
+    style.configure('B.TButton', width = 1, height = 1 ,foreground = 'white')
+    style.map("B.TButton", background=[('pressed', 'green4'), ('!pressed', 'grey27')])
     
     #Cargando ventana
     tabGroup = Notebook(root)
@@ -112,6 +114,7 @@ if __name__ == "__main__":
     listaOpciones = tuple(listaOpciones)
     
     labStart = Label(tab1, text='Tiempos de arranque:')
+    butAddHora = Button(tab1, text='+', style='B.TButton')
     labHora = Label(tab1, text='Hora: ')
     tHora = tk.StringVar(value='0:00')
     spinHora = Spinbox(tab1, textvariable=tHora, wrap=True, values=listaOpciones, style='A.TSpinbox', width=5)
@@ -121,7 +124,6 @@ if __name__ == "__main__":
     spinDuracion = Spinbox(tab1, textvariable=tDuracion, wrap=True, values=listaOpciones, style='A.TSpinbox', width=5)
     
     ##Valvulas a las que aplicar el programa
-    
     optVal = [tk.IntVar(value=0),tk.IntVar(value=0),tk.IntVar(value=0),tk.IntVar(value=0)]
     labVal = Label(tab1, text='Valvulas a operar:')
     chVal1 = Checkbutton(tab1, text="Valvula 1", variable=optVal[0])
@@ -132,6 +134,7 @@ if __name__ == "__main__":
     
     ##Guardado de configuración
     butSave = Button(tab1, text='Guardar Programa')
+    
     
     
     root.update_idletasks() #hacemos update del root para que este todo listo
@@ -148,16 +151,19 @@ if __name__ == "__main__":
     chViernes.place(x= 140, y=150)
     chSabado.place(x= 170, y=150)
     chDomingo.place(x= 200, y=150)
-    labStart.place(x= 20,y=180)
-    labHora.place(x= 20,y=210)
-    spinHora.place(x= 60,y=210)
-    labDura.place(x= 140,y=210)
-    spinDuracion.place(x= 200,y=210)
-    labVal.place(x= 20, y= 240)
-    chVal1.place(x= 40, y= 270)
-    chVal2.place(x= 40, y= 300)
-    chVal3.place(x= 40, y= 330)
-    chVal4.place(x= 40, y= 360)
+    
+    labStart.place(x= 20,y=190)
+    butAddHora.place(x= 150, y=185)
+    labHora.place(x= 20,y=220)
+    spinHora.place(x= 60,y=220)
+    labDura.place(x= 140,y=220)
+    spinDuracion.place(x= 200,y=220)
+    
+    labVal.place(x= 20, y= 260)
+    chVal1.place(x= 40, y= 290)
+    chVal2.place(x= 40, y= 320)
+    chVal3.place(x= 40, y= 350)
+    chVal4.place(x= 40, y= 380)
     butSave.place(x= 20, y= root.winfo_height()-80)
     
     

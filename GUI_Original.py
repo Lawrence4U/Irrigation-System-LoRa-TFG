@@ -275,7 +275,7 @@ def enviarPaquete(client):
 
 
 def mqtt_client_listener(client):
-    client.loop_forever()
+    client.loop_forever() ###Modificar por loop_start que crea solo el thread
 
 def timerEnd(client):
     global queued
@@ -316,7 +316,7 @@ def main():
     client.on_message = on_message
     client.on_disconnect = on_disconnect
     client.connect(host=mqtt_address, port=1883, keepalive=60)
-    hilo = threading.Thread(target=mqtt_client_listener, args=(client,))
+    hilo = threading.Thread(target=mqtt_client_listener, args=(client,)) #UTILIZAR LOOP_START()
     hilo.start()
 
     # setup GUI

@@ -3,7 +3,7 @@
 Focos Iluminación 			(Dig.)
 Calefacción 				(Anal.?)
 Ventanas con porcentaje de apertura 	(Anal.)
-Sensor Temperatura 				(Anal.)
+Sensor Temperatura 			(Anal.)
 Sensor Anemómetro 			(Anal.)
 Sensor Iluminación 			(Anal.)
 Sensor Humedad x4			(Anal.)

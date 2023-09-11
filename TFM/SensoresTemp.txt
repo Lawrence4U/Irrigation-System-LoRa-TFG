@@ -4,7 +4,7 @@ LM75	2.77	700-LM75BIM-5+
 - 100 - 300 ms conversion de temp
 - +-2 -25-100
 
-LM75A	1.83	926-LM75AIM/NOPB
+LM75A	1.83	926-LM75AIM/NOPB ✔✔✔✔
 
 - 9 bits
 - +-2 -55-125
